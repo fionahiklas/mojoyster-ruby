@@ -62,6 +62,7 @@ rake test
 * The swipe/tap events update the state of the Oyster card and it's balance
 * Corrections for the amount charaged for a journey are calculated by the swipe gates
 * Balance is handled in pence rather than pounds - less mucking around with decimals, obviously can be improved with a Money class
+* You can't travel from zone 1 direct to 3, you have to pass through 2
 
 
 ### Objects
@@ -89,4 +90,26 @@ Internal state consists of the following
 * The current balance amount
 * The last tube station to swipe in
 
+
+### Fare Calculation
+
+* Zone 1 to 1 = Anywhere in zone 1
+* Zone 2 to 2, or 3 to 3 = Any one zone outside zone 1
+* Zone 1 to 2, or 2 to 1 = Any two zones including 1
+* Zone 2 to 3, or 3 to 2 = Any two zones excluding 1
+* Zone 1, 2, 3, or 3, 2, 1 = Any three zones
+
+So some rules
+
+* If start and end zone are same then price is £2.00 unless it's zone 1 in which case it's £2.50
+* If start and end zones differ by 1 then price is £2.25 unless one is zone 1 in which case it's £3.00
+* If start and end zones differ by 2 then price is £3.20
+
+|One point match |Zone difference  | Cost |
+|----------------|------------------------|
+|                |   0             | 2.00 |
+|                |   1             | 2.25 |
+|                |   2             | 3.20 |
+|      1         |   0             | 2.50 |
+|      1         |   1             | 3.00 |
 
