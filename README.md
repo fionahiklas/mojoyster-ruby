@@ -61,6 +61,7 @@ rake test
 * Access to tube stations is via in and out gates - there is no simply a single "at station" tap 
 * The swipe/tap events update the state of the Oyster card and it's balance
 * Corrections for the amount charaged for a journey are calculated by the swipe gates
+* Balance is handled in pence rather than pounds - less mucking around with decimals, obviously can be improved with a Money class
 
 
 ### Objects
