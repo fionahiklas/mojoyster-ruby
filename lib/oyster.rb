@@ -10,4 +10,8 @@ class Oyster
     @startingStation = nil
   end
 
+  def topUp(amount_of_topup)
+    raise 'Negative topup' if amount_of_topup < 0
+    @balance += amount_of_topup
+  end
 end

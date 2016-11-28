@@ -9,6 +9,7 @@ class TestOysterObject < Test::Unit::TestCase
 
 
   def setup()
+    @@log.debug('Creating new instance of Oyster')
     @oysterInstance = Oyster.new()
   end
 
@@ -22,5 +23,27 @@ class TestOysterObject < Test::Unit::TestCase
 
   def test_new_start_station()
     assert(@oysterInstance.startingStation == nil)
+  end
+
+  def test_top_up()
+    @oysterInstance.topUp(3000)
+    assert(@oysterInstance.balance == 3000)
+  end
+
+  def test_two_top_ups()
+    @oysterInstance.topUp(2000)
+    @oysterInstance.topUp(2200)
+    assert(@oysterInstance.balance == 4200)
+  end
+
+  def test_negative_topup()
+    caughtException = false
+    begin
+      @oysterInstance.topUp(-273)
+    rescue
+      @@log.debug('Negative top-up threw an exception')
+      caughtException = true
+    end
+    assert(caughtException==true)
   end
 end
