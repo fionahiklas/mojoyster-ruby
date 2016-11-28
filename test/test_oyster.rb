@@ -19,4 +19,8 @@ class TestOysterObject < Test::Unit::TestCase
   def test_new_card_balance()
     assert(@oysterInstance.balance == 0)
   end
+
+  def test_new_start_station()
+    assert(@oysterInstance.startingStation == nil)
+  end
 end
