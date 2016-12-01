@@ -83,9 +83,54 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     fareToAdd_2 = Fare.new(1,0,200)
     @farecalculator.addFare(fareToAdd_1)
     assert(@farecalculator.maximumFare == 300)
-    
+
     @farecalculator.addFare(fareToAdd_2)
     assert(@farecalculator.maximumFare == 300)
+  end
+
+  def test_minimum_fare_for_default_zone
+    fareToAdd = Fare.new(0,0,300)
+    @farecalculator.addFare(fareToAdd)
+    assert(@farecalculator.minimumFareForZone[0] == 300)
+  end
+
+  def test_minimum_fare_for_default_zone_three_fares
+    fareToAdd_1 = Fare.new(0,0,300)
+    fareToAdd_2 = Fare.new(0,0,400)
+    fareToAdd_3 = Fare.new(0,0,199)
+
+    @farecalculator.addFare(fareToAdd_1)
+    @farecalculator.addFare(fareToAdd_2)
+    @farecalculator.addFare(fareToAdd_3)
+
+    assert(@farecalculator.minimumFareForZone[0] == 199)
+  end
+
+  def test_minimum_fare_for_different_zones_three_fares
+    fareToAdd_1 = Fare.new(2,0,300)
+    fareToAdd_2 = Fare.new(0,0,400)
+    fareToAdd_3 = Fare.new(1,0,199)
+
+    @farecalculator.addFare(fareToAdd_1)
+    @farecalculator.addFare(fareToAdd_2)
+    @farecalculator.addFare(fareToAdd_3)
+
+    assert(@farecalculator.minimumFareForZone[0] == 400)
+    assert(@farecalculator.minimumFareForZone[1] == 199)
+    assert(@farecalculator.minimumFareForZone[2] == 300)
+  end
+
+  def test_fare_calculator_to_str
+    fareToAdd_1 = Fare.new(2,0,300)
+    fareToAdd_2 = Fare.new(0,0,400)
+    fareToAdd_3 = Fare.new(1,0,199)
+
+    @farecalculator.addFare(fareToAdd_1)
+    @farecalculator.addFare(fareToAdd_2)
+    @farecalculator.addFare(fareToAdd_3)
+
+    string_output = @farecalculator.to_s
+    @@log.debug("Output:\n#{string_output}")
   end
 
 end
