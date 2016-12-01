@@ -62,4 +62,30 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     assert(fareTable.length == 1)
     assert(fareTable[0] == fareToAdd)
   end
+
+  def test_add_one_fare_updates_maximum
+    fareToAdd = Fare.new(0,0,200)
+    @farecalculator.addFare(fareToAdd)
+    assert(@farecalculator.maximumFare==200)
+  end
+
+  def test_add_two_fares_update_maximum
+    fareToAdd_1 = Fare.new(0,0,200)
+    fareToAdd_2 = Fare.new(1,0,300)
+    @farecalculator.addFare(fareToAdd_1)
+    @farecalculator.addFare(fareToAdd_2)
+
+    assert(@farecalculator.maximumFare == 300)
+  end
+
+  def test_add_two_fares_update_maximum_reverse_order
+    fareToAdd_1 = Fare.new(0,0,300)
+    fareToAdd_2 = Fare.new(1,0,200)
+    @farecalculator.addFare(fareToAdd_1)
+    assert(@farecalculator.maximumFare == 300)
+    
+    @farecalculator.addFare(fareToAdd_2)
+    assert(@farecalculator.maximumFare == 300)
+  end
+
 end

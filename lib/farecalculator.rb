@@ -27,9 +27,17 @@ class FareCalculator
     @@log.debug('Adding fare')
     tableToAddTo = fareTable(fareToAdd.specialZone)
     tableToAddTo[fareToAdd.zoneDifference] = fareToAdd
+    updateLimits(fareToAdd)
   end
 
   def fareTable(specialZone)
     @fareTableHash[specialZone] ||= Hash.new
   end
+
+  private
+
+    def updateLimits(fareToAdd)
+      fareAmount = fareToAdd.fareRate
+      @maximumFare = fareAmount if fareAmount > @maximumFare
+    end
 end
