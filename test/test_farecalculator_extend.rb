@@ -12,6 +12,7 @@ require 'farecalculator'
 #
 class FareCalculatorExtended < FareCalculator
 
+  attr_reader :fareTableHash
 
 end
 
@@ -30,5 +31,26 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     assert(@farecalculator.instance_of?(FareCalculatorExtended), 'Instance of FareCalculatorExtended')
     assert(@farecalculator.is_a?(FareCalculator), 'Instance of FareCalculator')
   end
-  
+
+  def test_empty_fare_table_hash()
+    assert(@farecalculator.fareTableHash)
+  end
+
+  def test_fare_table()
+    fareTable = @farecalculator.fareTable(0)
+    assert(fareTable!=nil)
+    assert(fareTable.length ==0)
+  end
+
+  def test_add_fare_normal_updates_default_table()
+    fareToAdd = Fare.new(0,0,200)
+    @farecalculator.addFare(fareToAdd)
+    fareTableHash = @farecalculator.fareTableHash
+    assert(fareTableHash.length == 1)
+
+    fareTable = fareTableHash[0]
+    assert(fareTable!=nil)
+    assert(fareTable.length == 1)
+    assert(fareTable[0] == fareToAdd)
+  end
 end
