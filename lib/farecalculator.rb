@@ -18,6 +18,9 @@ class FareCalculator
 
   def initialize
     @fareTableHash = Hash.new
+    @maximumFare = 0
+    @minimumFareForZone = Hash.new
+
   end
 
   def addFare(fareToAdd)

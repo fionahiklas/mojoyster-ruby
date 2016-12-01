@@ -12,7 +12,7 @@ require 'farecalculator'
 #
 class FareCalculatorExtended < FareCalculator
 
-  attr_reader :fareTableHash
+  attr_reader :fareTableHash, :minimumFareForZone, :maximumFare
 
 end
 
@@ -40,6 +40,15 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     fareTable = @farecalculator.fareTable(0)
     assert(fareTable!=nil)
     assert(fareTable.length ==0)
+  end
+
+  def test_maximum_fare_on_creation
+    assert(@farecalculator.maximumFare == 0)
+  end
+
+  def test_minimum_fare_on_creation
+    assert(@farecalculator.minimumFareForZone != nil)
+    assert(@farecalculator.minimumFareForZone.instance_of?(Hash))
   end
 
   def test_add_fare_normal_updates_default_table()
