@@ -16,4 +16,18 @@ class TestFareCalculatorObject < Test::Unit::TestCase
     assert(@farecalculator!=nil)
     assert(@farecalculator.instance_of?(FareCalculator))
   end
+
+  def test_create_fare()
+    fare = Fare.new(0, 0, 200)
+    assert(fare!=nil)
+  end
+
+  def test_read_fare_details()
+    fare = Fare.new(1, 1, 300)
+    assert(fare.specialZone == 1)
+    assert(fare.zoneDifference == 1)
+    assert(fare.fareRate == 300)
+  end
+
+
 end

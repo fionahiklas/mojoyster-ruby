@@ -30,8 +30,5 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     assert(@farecalculator.instance_of?(FareCalculatorExtended), 'Instance of FareCalculatorExtended')
     assert(@farecalculator.is_a?(FareCalculator), 'Instance of FareCalculator')
   end
-
-  def test_create_fare()
-    
-  end
+  
 end
