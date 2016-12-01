@@ -1,6 +1,5 @@
 require 'logger'
+require 'location'
 
 
-class Station
 
-end
