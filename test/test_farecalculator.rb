@@ -29,5 +29,10 @@ class TestFareCalculatorObject < Test::Unit::TestCase
     assert(fare.fareRate == 300)
   end
 
-
+  def test_add_fare()
+    fare = Fare.new(1,2,300)
+    @farecalculator.addFare(fare)
+    fareTable = @farecalculator.fareTable(fare.specialZone)
+    assert(fareTable[fare.zoneDifference] == fare.fareRate)
+  end
 end

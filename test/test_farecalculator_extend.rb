@@ -1,7 +1,9 @@
 require 'test/unit'
 require 'logger'
 require 'oyster'
+require 'location'
 require 'bus'
+require 'tubestation'
 require 'farecalculator'
 
 
@@ -16,6 +18,9 @@ class FareCalculatorExtended < FareCalculator
 
   attr_reader :fareTableHash, :minimumFareForZone, :maximumFare
 
+  def call_findFareTableForJourney(oysterCard)
+    findFareTableForJourney(oysterCard)
+  end
 end
 
 
@@ -62,7 +67,7 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     fareTable = fareTableHash[0]
     assert(fareTable!=nil)
     assert(fareTable.length == 1)
-    assert(fareTable[0] == fareToAdd)
+    assert(fareTable[0] == fareToAdd.fareRate)
   end
 
   def test_add_one_fare_updates_maximum
@@ -135,10 +140,63 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     @@log.debug("Output:\n#{string_output}")
   end
 
-  def test_find_fare_for_bus_journey()
+  def test_find_fare_table_for_bus_journey()
     oysterCard = Oyster.new()
     bus = Bus.new(328)
     oysterCard.tapIn(bus)
     oysterCard.tapOut(bus)
+
+    setupSimpleFareTable()
+
+    fareTable = @farecalculator.call_findFareTableForJourney(oysterCard)
+
+    assert(fareTable!=nil)
+    assert(fareTable.length == 1)
+    assert(fareTable[0] == 180)
   end
+
+=begin
+  def test_find_fare_table_for_default_tube_journey()
+    oysterCard = Oyster.new()
+    tubeIn = TubeStation.new('Osterley', [2])
+    tubeOut = TubeStation.new('Kew', [2])
+    oysterCard.tapIn(tubeIn)
+    oysterCard.tapOut(tubeOut)
+
+    setupSimpleFareTable()
+
+    fareTable = @farecalculator.call_findFareTableForJourney(oysterCard)
+
+    assert(fareTable!=nil)
+    assert(fareTable.length == 1)
+    assert(fareTable[0] == 200)
+  end
+
+  def test_find_fare_table_for_zone_one_tube_journey()
+    oysterCard = Oyster.new()
+    tubeIn = TubeStation.new('Kings Cross', [1])
+    tubeOut = TubeStation.new('Euston', [1])
+    oysterCard.tapIn(tubeIn)
+    oysterCard.tapOut(tubeOut)
+
+    setupSimpleFareTable()
+
+    fareTable = @farecalculator.call_findFareTableForJourney(oysterCard)
+
+    assert(fareTable!=nil)
+    assert(fareTable.length == 1)
+    assert(fareTable[0] == 300)
+  end
+=end
+
+  def setupSimpleFareTable()
+    busFare1 = Fare.new(Location::BUS_ZONE, 0, 180)
+    tubeFare1 = Fare.new(Location::DEFAULT_ZONE, 0, 200)
+    tubeFare2 = Fare.new(1, 0, 300)
+
+    @farecalculator.addFare(busFare1)
+    @farecalculator.addFare(tubeFare1)
+    @farecalculator.addFare(tubeFare2)
+  end
+
 end

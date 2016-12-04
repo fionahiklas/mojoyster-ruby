@@ -10,6 +10,11 @@ class Fare
     @fareRate = fareRate
   end
 
+  def to_s()
+    sprintf("Fare specialZone: %d, zone diff: %d, fare rate: %d",
+      @specialZone, @zoneDifference, @fareRate)
+  end
+
 end
 
 class FareCalculator
@@ -23,14 +28,15 @@ class FareCalculator
   end
 
   def addFare(fareToAdd)
-    @@log.debug('Adding fare')
+    @@log.debug("Adding fare: #{fareToAdd}")
     tableToAddTo = fareTable(fareToAdd.specialZone)
-    tableToAddTo[fareToAdd.zoneDifference] = fareToAdd
+    tableToAddTo[fareToAdd.zoneDifference] = fareToAdd.fareRate
     updateLimits(fareToAdd)
   end
 
 
   def fareTable(specialZone)
+    @@log.debug("FareTable for: #{specialZone}")
     @fareTableHash[specialZone] ||= Hash.new
   end
 
@@ -41,8 +47,14 @@ class FareCalculator
 
   protected
 
-    def findFareTableForJourney()
+    def findFareTableForJourney(oysterCard)
+      locationStart = oysterCard.startingLocation
 
+      if locationStart.hasZones() == false
+        findFareTableForDefaultZone(locationStart)
+      #else
+      #  findFareTableForSpecialZone(oysterCard)
+      end
     end
 
   private
@@ -56,6 +68,19 @@ class FareCalculator
           (currentMinimum == nil || (currentMinimum > fareAmount) ) ? fareAmount: currentMinimum;
 
       @minimumFareForZone[fareToAdd.specialZone] = newMinimum
+    end
+
+    def findFareTableForDefaultZone(locationStart)
+      defaultZone = locationStart.defaultZone()
+      @@log.debug("Finding tables for zone: #{defaultZone}")
+      fareTable(defaultZone)
+    end
+
+    def findFareTableForSpecialZone(oysterCard)
+      startLocation = oysterCard.startingLocation
+      endLocation = oysterCard.endingLocation
+
+
     end
 
     def minimum_fare_to_str()
@@ -75,7 +100,7 @@ class FareCalculator
       fareTable = @fareTableHash[fareTableKey]
 
       fareTable.keys.sort.each do |fareKey|
-        string_output += sprintf("%12d %10d %9d\n", fareTableKey, fareKey, fareTable[fareKey].fareRate)
+        string_output += sprintf("%12d %10d %9d\n", fareTableKey, fareKey, fareTable[fareKey])
       end
     end
 
