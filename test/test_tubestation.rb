@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'logger'
+require 'location'
 require 'tubestation'
 
 
@@ -19,5 +20,13 @@ class TestTubeStationObject < Test::Unit::TestCase
   def test_station_details()
     assert(@station.name == STATION_NAME)
     assert(@station.zones == STATION_ZONES)
+  end
+
+  def test_tube_has_entrance_and_exit()
+    assert(@station.hasEntranceAndExit() == true)
+  end
+
+  def test_default_fare_table
+    assert(@station.defaultZone() == Location::DEFAULT_ZONE)
   end
 end

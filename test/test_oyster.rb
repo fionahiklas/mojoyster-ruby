@@ -22,7 +22,11 @@ class TestOysterObject < Test::Unit::TestCase
   end
 
   def test_new_start_station()
-    assert(@oysterInstance.startingStation == nil)
+    assert(@oysterInstance.startingLocation == nil)
+  end
+
+  def test_new_ending_station()
+    assert(@oysterInstance.endingLocation == nil)
   end
 
   def test_top_up()

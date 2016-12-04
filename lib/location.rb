@@ -1,6 +1,13 @@
 require 'logger'
 
 
+##
+#
+# Common methods for locations
+#
+# This can be inherited (included) by specific types of
+# transport location
+#
 module Location
 
   DEFAULT_ZONE = 0

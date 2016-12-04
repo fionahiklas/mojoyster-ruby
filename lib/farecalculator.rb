@@ -29,6 +29,7 @@ class FareCalculator
     updateLimits(fareToAdd)
   end
 
+
   def fareTable(specialZone)
     @fareTableHash[specialZone] ||= Hash.new
   end
@@ -37,6 +38,12 @@ class FareCalculator
     sprintf("maximumFare: %s\nminimum fares: \n%s\nfare tables:\n%s",
             @maximumFare, minimum_fare_to_str, fare_table_to_str)
   end
+
+  protected
+
+    def findFareTableForJourney()
+
+    end
 
   private
 

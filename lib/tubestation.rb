@@ -13,4 +13,7 @@ class TubeStation
     @zones = zones
   end
 
+  def hasEntranceAndExit()
+    true
+  end
 end
