@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'logger'
+require 'bus'
 require 'oyster'
 
 
@@ -50,4 +51,20 @@ class TestOysterObject < Test::Unit::TestCase
     end
     assert(caughtException==true)
   end
+
+  def test_tap_in
+    locationIn = Bus.new(328)
+
+    @oysterInstance.tapIn(locationIn)
+    assert(@oysterInstance.startingLocation == locationIn)
+  end
+
+  def test_tap_out
+    locationOut = Bus.new(328)
+
+    @oysterInstance.tapOut(locationOut)
+    assert(@oysterInstance.endingLocation == locationOut)
+  end
+
+
 end

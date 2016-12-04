@@ -22,7 +22,7 @@ class TestBusObject < Test::Unit::TestCase
   end
 
   def test_bus_has_entrance_and_exit
-    assert(@bus.hasEntranceAndExit() == false)
+    assert(@bus.hasZones() == false)
   end
 
   def test_default_fare_table

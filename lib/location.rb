@@ -15,14 +15,18 @@ module Location
 
   ##
   #
-  # Only tube stations have an entrance and and exit
-  # buses just require one tap
+  # Only tube stations have specific zones
+  # buses are just priced according to fixed fares
   #
-  def hasEntranceAndExit()
-    throw 'Method hasEntranceAndExit not implemented'
+  def hasZones()
+    throw 'Method has zones not implemented'
   end
 
   def defaultZone()
-    (hasEntranceAndExit()) ? DEFAULT_ZONE : BUS_ZONE
+    (hasZones()) ? DEFAULT_ZONE : BUS_ZONE
+  end
+
+  def getZone()
+    throw 'Method get zone not implemented'
   end
 end

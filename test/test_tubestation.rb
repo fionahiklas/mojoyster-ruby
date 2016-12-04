@@ -23,7 +23,7 @@ class TestTubeStationObject < Test::Unit::TestCase
   end
 
   def test_tube_has_entrance_and_exit()
-    assert(@station.hasEntranceAndExit() == true)
+    assert(@station.hasZones() == true)
   end
 
   def test_default_fare_table

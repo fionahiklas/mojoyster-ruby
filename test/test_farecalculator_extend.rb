@@ -1,5 +1,7 @@
 require 'test/unit'
 require 'logger'
+require 'oyster'
+require 'bus'
 require 'farecalculator'
 
 
@@ -133,4 +135,10 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     @@log.debug("Output:\n#{string_output}")
   end
 
+  def test_find_fare_for_bus_journey()
+    oysterCard = Oyster.new()
+    bus = Bus.new(328)
+    oysterCard.tapIn(bus)
+    oysterCard.tapOut(bus)
+  end
 end

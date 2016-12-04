@@ -13,7 +13,7 @@ class Bus
     @number = number
   end
 
-  def hasEntranceAndExit()
+  def hasZones()
     false
   end
 end

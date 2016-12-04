@@ -22,4 +22,12 @@ class Oyster
     raise 'Negative topup' if amount_of_topup < 0
     @balance += amount_of_topup
   end
+
+  def tapIn(locationIn)
+    @startingLocation = locationIn
+  end
+
+  def tapOut(locationOut)
+    @endingLocation = locationOut
+  end
 end
