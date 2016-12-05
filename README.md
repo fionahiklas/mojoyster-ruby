@@ -115,3 +115,12 @@ So some rules
 
 * Given the current rate table given Earl's court is in two zones the cheapest option appears to be when the zone difference is less
 * So for example, travel in zone 1 is cheaper that zone 1 to 2
+
+## Run Full Journey
+
+The oyster terminal has the top level tapIn/Out calls and a test for this code exercises the full journey, run the following command to see this
+
+```
+ruby -I test -I lib test/test_oysterterminal.rb
+```
+
