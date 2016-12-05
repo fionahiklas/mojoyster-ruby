@@ -5,6 +5,7 @@ require 'location'
 require 'bus'
 require 'tubestation'
 require 'farecalculator'
+require 'common_test_code'
 
 
 ##
@@ -33,6 +34,8 @@ end
 
 
 class TestFareCalculatorExtendedObject < Test::Unit::TestCase
+
+  include FareTestUtils
 
   @@log = Logger.new(STDOUT)
 
@@ -266,18 +269,6 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
 
     assert(minimalZones[0] == 2)
     assert(minimalZones[1] == 2)
-  end
-
-  def setupSimpleFareTable()
-    busFare1 = Fare.new(Location::BUS_ZONE, 0, 180)
-    tubeFare1 = Fare.new(Location::DEFAULT_ZONE, 0, 200)
-    tubeFare2 = Fare.new(1, 0, 300)
-    tubeFare3 = Fare.new(0, 1, 250)
-
-    @farecalculator.addFare(busFare1)
-    @farecalculator.addFare(tubeFare1)
-    @farecalculator.addFare(tubeFare2)
-    @farecalculator.addFare(tubeFare3)
   end
 
 end

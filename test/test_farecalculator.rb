@@ -1,9 +1,12 @@
 require 'test/unit'
 require 'logger'
 require 'farecalculator'
+require 'common_test_code'
 
 
 class TestFareCalculatorObject < Test::Unit::TestCase
+
+  include FareTestUtils
 
   @@log = Logger.new(STDOUT)
 
