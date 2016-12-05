@@ -47,14 +47,10 @@ class FareCalculator
 
   protected
 
-    def findFareTableForJourney(oysterCard)
-      locationStart = oysterCard.startingLocation
-
-      if locationStart.hasZones() == false
-        findFareTableForDefaultZone(locationStart)
-      #else
-      #  findFareTableForSpecialZone(oysterCard)
-      end
+    def findFareForJourney(matchZone, startingZone, endingZone)
+      zoneDifference = (startingZone - endingZone).abs
+      fareLookupTable = fareTable(matchZone)
+      fareLookupTable[zoneDifference]
     end
 
   private
@@ -68,19 +64,6 @@ class FareCalculator
           (currentMinimum == nil || (currentMinimum > fareAmount) ) ? fareAmount: currentMinimum;
 
       @minimumFareForZone[fareToAdd.specialZone] = newMinimum
-    end
-
-    def findFareTableForDefaultZone(locationStart)
-      defaultZone = locationStart.defaultZone()
-      @@log.debug("Finding tables for zone: #{defaultZone}")
-      fareTable(defaultZone)
-    end
-
-    def findFareTableForSpecialZone(oysterCard)
-      startLocation = oysterCard.startingLocation
-      endLocation = oysterCard.endingLocation
-
-
     end
 
     def minimum_fare_to_str()
