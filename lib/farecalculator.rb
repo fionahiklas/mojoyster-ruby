@@ -55,6 +55,10 @@ class FareCalculator
     findFareForJourney(zoneToMatch, zones[0], zones[1])
   end
 
+  def getMaximumFare()
+    @maximumFare
+  end
+
   def to_s()
     sprintf("maximumFare: %s\nminimum fares: \n%s\nfare tables:\n%s",
             @maximumFare, minimum_fare_to_str, fare_table_to_str)

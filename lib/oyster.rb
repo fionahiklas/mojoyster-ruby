@@ -4,7 +4,7 @@ require 'logger'
 #
 # Hold information about the current balance
 #
-# Actually holds the information about the start and end location
+# Actually holds the information about the start location
 # as well but really that should maybe be in a journey object
 # or something else.  Leaving it here for now.
 #
