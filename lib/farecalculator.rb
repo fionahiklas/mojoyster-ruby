@@ -48,7 +48,11 @@ class FareCalculator
   end
 
   def getFareForJourney(startLocation, endLocation)
+    zoneToMatch = selectZoneToMatch(startLocation, endLocation)
+    zones = findMinimalZoneDifference(startLocation, endLocation)
 
+    @@log.debug("Calculating journey on zoneToMatch: #{zoneToMatch}, start: #{zones[0]}, end: #{zones[1]}")
+    findFareForJourney(zoneToMatch, zones[0], zones[1])
   end
 
   def to_s()
@@ -61,6 +65,8 @@ class FareCalculator
     def findFareForJourney(matchZone, startingZone, endingZone)
       zoneDifference = (startingZone - endingZone).abs
       fareLookupTable = fareTable(matchZone)
+
+      @@log.debug("Looking up fare for difference: #{zoneDifference}")
       fareLookupTable[zoneDifference]
     end
 

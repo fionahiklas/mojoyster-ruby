@@ -48,4 +48,71 @@ class TestFareCalculatorObject < Test::Unit::TestCase
     assert(fareTable[0] == 200)
   end
 
+  def test_get_fare_for_bus_journey()
+    setupSimpleFareTable()
+
+    startLocation = Bus.new(328)
+    endLocation = Bus.new(328)
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    @@log.debug("Fare rate: #{fareRate}")
+    assert(fareRate == 180)
+  end
+
+  def test_get_fare_for_zones_two_to_three_journey()
+    setupSimpleFareTable()
+
+    startLocation = TubeStation.new('Wibble', [2])
+    endLocation = TubeStation.new('Blop', [3])
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    assert(fareRate == 250)
+  end
+
+  def test_get_fare_for_zones_three_to_two_journey()
+    setupSimpleFareTable()
+
+    startLocation = TubeStation.new('Blop', [3])
+    endLocation = TubeStation.new('Wibble', [2])
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    assert(fareRate == 250)
+  end
+
+  def test_get_fare_for_zones_two_to_two_journey()
+    setupSimpleFareTable()
+
+    startLocation = TubeStation.new('Simples', [2])
+    endLocation = TubeStation.new('Wibble', [2])
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    assert(fareRate == 200)
+  end
+
+  def test_get_fare_for_zones_one_to_two_journey()
+    setupSimpleFareTable()
+
+    startLocation = TubeStation.new('Simples', [1])
+    endLocation = TubeStation.new('Wibble', [2])
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    assert(fareRate == 310)
+  end
+
+  def test_get_fare_for_zones_one_to_one_journey()
+    setupSimpleFareTable()
+
+    startLocation = TubeStation.new('Simples', [1])
+    endLocation = TubeStation.new('Wibble', [1])
+
+    fareRate = @farecalculator.getFareForJourney(startLocation, endLocation)
+
+    assert(fareRate == 300)
+  end
+
 end

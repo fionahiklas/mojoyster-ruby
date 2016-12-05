@@ -16,8 +16,4 @@ class TubeStation
   def hasZones()
     true
   end
-
-  def getZones()
-    @zones
-  end
 end

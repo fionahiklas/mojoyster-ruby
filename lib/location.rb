@@ -27,6 +27,10 @@ module Location
   end
 
   def getZones()
-    throw 'Method get zone not implemented'
+    if hasZones()
+      @zones
+    else
+      [ DEFAULT_ZONE ]
+    end
   end
 end
