@@ -15,7 +15,6 @@ class Oyster
   def initialize
     @balance = 0
     @startingLocation = nil
-    @endingLocation = nil
   end
 
   def topUp(amount_of_topup)
@@ -23,11 +22,13 @@ class Oyster
     @balance += amount_of_topup
   end
 
-  def tapIn(locationIn)
+  def tapIn(locationIn, initialDebit=0)
     @startingLocation = locationIn
+    @balance -= initialDebit
   end
 
-  def tapOut(locationOut)
-    @endingLocation = locationOut
+  def tapOut(creditBack=0)
+    @balance += creditBack
+    @startingLocation = nil
   end
 end

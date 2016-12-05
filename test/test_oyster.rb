@@ -54,16 +54,24 @@ class TestOysterObject < Test::Unit::TestCase
 
   def test_tap_in
     locationIn = Bus.new(328)
+    @oysterInstance.topUp(3000)
 
-    @oysterInstance.tapIn(locationIn)
+    @oysterInstance.tapIn(locationIn, 320)
+
     assert(@oysterInstance.startingLocation == locationIn)
+    assert(@oysterInstance.balance == 2680)
   end
 
   def test_tap_out
-    locationOut = Bus.new(328)
+    locationIn = Bus.new(328)
+    @oysterInstance.topUp(2000)
+    @oysterInstance.tapIn(locationIn,320)
 
-    @oysterInstance.tapOut(locationOut)
-    assert(@oysterInstance.endingLocation == locationOut)
+    assert(@oysterInstance.balance == 1680)
+    @oysterInstance.tapOut(120)
+
+    assert(@oysterInstance.startingLocation == nil)
+    assert(@oysterInstance.balance == 1800)
   end
 
 
