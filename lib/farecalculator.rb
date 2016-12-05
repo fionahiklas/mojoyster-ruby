@@ -43,6 +43,10 @@ class FareCalculator
     @fareTableHash[specialZone] ||= Hash.new
   end
 
+  def getFareTable(specialZone)
+    @fareTableHash[specialZone]
+  end
+
   def to_s()
     sprintf("maximumFare: %s\nminimum fares: \n%s\nfare tables:\n%s",
             @maximumFare, minimum_fare_to_str, fare_table_to_str)
@@ -56,8 +60,31 @@ class FareCalculator
       fareLookupTable[zoneDifference]
     end
 
+    ##
+    #
+    # Yuck, this is way to complicated, refactor it!
+    #
     def selectZoneToMatch(startLocation, endLocation)
+      if(startLocation.hasZones())
+        startZone, endZone = findMinimalZoneDifference(startLocation, endLocation)
 
+        startFareTable = getFareTable(startZone)
+        endFareTable = getFareTable(endZone)
+
+        if startFareTable == nil && endFareTable == nil
+          @@log.debug('No fare tables for either start or end')
+          startLocation.defaultZone()
+        else
+          @@log.debug('Tables exist for one or both')
+          if startFareTable != nil && endFareTable != nil
+            (startZone < endZone) ? startZone : endZone
+          else
+            (startFareTable!=nil) ? startZone : endZone
+          end
+        end
+      else
+        startLocation.defaultZone()
+      end
     end
 
     def findMinimalZoneDifference(startLocation, endLocation)

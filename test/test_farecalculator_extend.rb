@@ -200,8 +200,40 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
 
     zoneToMatch = @farecalculator.call_selectZoneToMatch(tubeStart, tubeEnd)
 
+    @@log.debug("Zone to match: #{zoneToMatch}")
     assert(zoneToMatch == Location::DEFAULT_ZONE)
   end
+
+  def test_select_zone_to_match_zone_one_tube_journey()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Euston', [1])
+    tubeEnd = TubeStation.new('Marble Arch', [1])
+
+    zoneToMatch = @farecalculator.call_selectZoneToMatch(tubeStart, tubeEnd)
+
+    assert(zoneToMatch == 1)
+  end
+
+  def test_select_zone_to_match_zone_one_out_tube_journey()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Euston', [1])
+    tubeEnd = TubeStation.new('Shepards Bush', [2])
+
+    zoneToMatch = @farecalculator.call_selectZoneToMatch(tubeStart, tubeEnd)
+
+    assert(zoneToMatch == 1)
+  end
+
+  def test_select_zone_to_match_zone_one_in_tube_journey()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Shepards Bush', [2])
+    tubeEnd = TubeStation.new('Euston', [1])
+
+    zoneToMatch = @farecalculator.call_selectZoneToMatch(tubeStart, tubeEnd)
+
+    assert(zoneToMatch == 1)
+  end
+
 
   def test_find_minimal_zone_difference_one()
     setupSimpleFareTable()
