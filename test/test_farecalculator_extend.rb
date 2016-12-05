@@ -21,6 +21,14 @@ class FareCalculatorExtended < FareCalculator
   def call_findFareForJourney(specialZone, startZone, endZone)
     findFareForJourney(specialZone, startZone, endZone)
   end
+
+  def call_selectZoneToMatch(startingLocation, endingLocation)
+    selectZoneToMatch(startingLocation, endingLocation)
+  end
+
+  def call_findMinimalZoneDifference(startingLocation, endingLocation)
+    findMinimalZoneDifference(startingLocation, endingLocation)
+  end
 end
 
 
@@ -173,6 +181,59 @@ class TestFareCalculatorExtendedObject < Test::Unit::TestCase
     fareRate = @farecalculator.call_findFareForJourney(1, 1, 1)
 
     assert(fareRate == 300)
+  end
+
+  def test_select_zone_to_match_bus_journey()
+    setupSimpleFareTable()
+    busStart = Bus.new(328)
+    busEnd = Bus.new(328)
+
+    zoneToMatch = @farecalculator.call_selectZoneToMatch(busStart, busEnd)
+
+    assert(zoneToMatch == Location::BUS_ZONE)
+  end
+
+  def test_select_zone_to_match_simple_tube_journey()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Osterley', [3])
+    tubeEnd = TubeStation.new('Kew', [3])
+
+    zoneToMatch = @farecalculator.call_selectZoneToMatch(tubeStart, tubeEnd)
+
+    assert(zoneToMatch == Location::DEFAULT_ZONE)
+  end
+
+  def test_find_minimal_zone_difference_one()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Osterley', [3])
+    tubeEnd = TubeStation.new('Kew', [3])
+
+    minimalZones = @farecalculator.call_findMinimalZoneDifference(tubeStart, tubeEnd)
+
+    assert(minimalZones[0] == 3)
+    assert(minimalZones[1] == 3)
+  end
+
+  def test_find_minimal_zone_difference_two()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Osterley', [3])
+    tubeEnd = TubeStation.new('Baron\'s Court', [2,3])
+
+    minimalZones = @farecalculator.call_findMinimalZoneDifference(tubeStart, tubeEnd)
+
+    assert(minimalZones[0] == 3)
+    assert(minimalZones[1] == 3)
+  end
+
+  def test_find_minimal_zone_difference_two_two()
+    setupSimpleFareTable()
+    tubeStart = TubeStation.new('Earl\'s Court', [1,2])
+    tubeEnd = TubeStation.new('Baron\'s Court', [2,3])
+
+    minimalZones = @farecalculator.call_findMinimalZoneDifference(tubeStart, tubeEnd)
+
+    assert(minimalZones[0] == 2)
+    assert(minimalZones[1] == 2)
   end
 
   def setupSimpleFareTable()

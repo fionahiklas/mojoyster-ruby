@@ -113,3 +113,5 @@ So some rules
 |      1         |   0             | 2.50 |
 |      1         |   1             | 3.00 |
 
+* Given the current rate table given Earl's court is in two zones the cheapest option appears to be when the zone difference is less
+* So for example, travel in zone 1 is cheaper that zone 1 to 2

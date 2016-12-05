@@ -19,6 +19,9 @@ end
 
 class FareCalculator
 
+  # Yuck, I don't like this but it's quicker
+  MAXIMUM_DIFFERENCE = 10
+
   @@log = Logger.new(STDOUT)
 
   def initialize
@@ -51,6 +54,28 @@ class FareCalculator
       zoneDifference = (startingZone - endingZone).abs
       fareLookupTable = fareTable(matchZone)
       fareLookupTable[zoneDifference]
+    end
+
+    def selectZoneToMatch(startLocation, endLocation)
+
+    end
+
+    def findMinimalZoneDifference(startLocation, endLocation)
+      minimalZones = []
+      currentMinimum = MAXIMUM_DIFFERENCE
+      startLocation.getZones().each do |startZone|
+
+        endLocation.getZones().each do |endZone|
+          difference = (endZone - startZone).abs
+          if difference < currentMinimum
+            currentMinimum = difference
+            minimalZones[0] = startZone
+            minimalZones[1] = endZone
+          end
+        end
+      end
+
+      minimalZones
     end
 
   private

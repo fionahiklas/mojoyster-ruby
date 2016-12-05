@@ -26,7 +26,7 @@ module Location
     (hasZones()) ? DEFAULT_ZONE : BUS_ZONE
   end
 
-  def getZone()
+  def getZones()
     throw 'Method get zone not implemented'
   end
 end
